@@ -1,0 +1,225 @@
+version: 2
+
+models:
+  - name: stg_SQL_SERVER_DBO__ADDRESSES
+    columns:
+      - name: ADDRESS_ID
+        tests:
+          - not_null
+          - relationships:
+              field: ADDRESS_ID
+              to: ref('')
+      - name: ZIPCODE
+        tests:
+          - not_null
+          - unique
+      - name: COUNTRY
+        data_type: varchar
+      - name: ADDRESS
+        data_type: varchar
+      - name: STATE
+        data_type: varchar
+      - name: _FIVETRAN_DELETED
+        data_type: boolean
+      - name: _FIVETRAN_SYNCED
+        data_type: timestamp
+  
+  - name: stg_SQL_SERVER_DBO__EVENTS
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: EVENT_ID
+        tests:
+          - not_null
+        data_type: varchar
+        constraints:
+          - type: not_null
+      - name: PAGE_URL
+        data_type: varchar
+      - name: EVENT_TYPE
+        data_type: varchar
+      - name: USER_ID
+        tests:
+          - not_null
+        data_type: varchar
+        constraints:
+          - type: not_null
+      - name: PRODUCT_ID
+        tests:
+          - not_null
+        data_type: varchar
+        constraints:
+          - type: not_null
+      - name: SESSION_ID
+        tests:
+          - not_null
+        data_type: varchar
+        constraints:
+          - type: not_null
+      - name: CREATED_AT
+        data_type: timestamp
+      - name: ORDER_ID
+        tests:
+          - not_null
+        data_type: varchar
+        constraints:
+          - type: not_null
+      - name: _FIVETRAN_DELETED
+        data_type: boolean
+      - name: _FIVETRAN_SYNCED
+        data_type: timestamp
+
+  - name: stg_SQL_SERVER_DBO__ORDERS
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: shipping_service
+        data_type: varchar
+      - name: shipping_cost
+        data_type: decimal
+      - name: address_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: created_at
+        data_type: timestamp
+      - name: promo_id
+        data_type: integer
+      - name: estimated_delivery_at
+        data_type: timestamp
+      - name: order_cost
+        data_type: decimal
+      - name: user_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: order_total
+        data_type: decimal
+      - name: delivered_at
+        data_type: timestamp
+      - name: tracking_id
+        tests:
+          - not_null
+        data_type: varchar
+        constraints:
+          - type: not_null
+      - name: status
+        data_type: varchar
+      - name: _fivetran_deleted
+        data_type: boolean
+      - name: _fivetran_synced
+        data_type: timestamp
+
+  - name: stg_SQL_SERVER_DBO__ORDER_ITEMS
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: product_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: quantity
+        data_type: integer
+      - name: _fivetran_deleted
+        data_type: boolean
+      - name: _fivetran_synced
+        data_type: timestamp
+
+  - name: stg_SQL_SERVER_DBO__PRODUCTS
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: price
+        data_type: decimal
+      - name: name
+        data_type: varchar
+      - name: inventory
+        data_type: integer
+      - name: _fivetran_deleted
+        data_type: boolean
+      - name: _fivetran_synced
+        data_type: timestamp
+
+  - name: stg_SQL_SERVER_DBO__PROMOS
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: promo_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: discount
+        data_type: decimal
+      - name: status
+        data_type: varchar
+      - name: _fivetran_deleted
+        data_type: boolean
+      - name: _fivetran_synced
+        data_type: timestamp
+
+  - name: stg_SQL_SERVER_DBO__USERS
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: updated_at
+        data_type: timestamp
+      - name: address_id
+        tests:
+          - not_null
+        data_type: integer
+        constraints:
+          - type: not_null
+      - name: last_name
+        data_type: varchar
+      - name: created_at
+        data_type: timestamp
+      - name: phone_number
+        data_type: varchar
+      - name: total_orders
+        data_type: integer
+      - name: first_name
+        data_type: varchar
+      - name: email
+        data_type: varchar
+      - name: _fivetran_deleted
+        data_type: boolean
+      - name: _fivetran_synced
+        data_type: timestamp
