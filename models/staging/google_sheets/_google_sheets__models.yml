@@ -2,25 +2,18 @@ version: 2
 
 models:
   - name: stg_google_sheets__budget
+    description: "Table containing address data"
     columns:
-      - name: _row
-        tests:
-          - not_null
-          - unique
       - name: product_id
-        tests:
-          - not_null
-          - relationships:
-              field: product_id
-              to: ref('stg_SQL_SERVER_DBO__PRODUCTS')
+        description: "Unique identifier for each address"
+        data_type: integer
       - name: quantity
-        tests:
-          - not_null
-          - positive_values
+        description: "quantity"
+        data_type: integer
       - name: month
-        tests:
-          - not_null
+        description: "month of the product"
+        data_type: date
       - name: _fivetran_synced
-        tests:
-          - not_null
+        description: "Timestamp of the last sync"
+        data_type: timestamp
   

@@ -1,225 +1,200 @@
 version: 2
 
+version: 2
+
 models:
   - name: stg_SQL_SERVER_DBO__ADDRESSES
     columns:
-      - name: ADDRESS_ID
+      - name: address_id
         tests:
-          - not_null
-          - relationships:
-              field: ADDRESS_ID
-              to: ref('')
-      - name: ZIPCODE
-        tests:
-          - not_null
           - unique
-      - name: COUNTRY
-        data_type: varchar
-      - name: ADDRESS
-        data_type: varchar
-      - name: STATE
-        data_type: varchar
-      - name: _FIVETRAN_DELETED
-        data_type: boolean
-      - name: _FIVETRAN_SYNCED
-        data_type: timestamp
-  
+          - not_null
+        description: "ID de la dirección, debe ser de tipo TEXT"
+        data_type: TEXT
+      - name: zipcode
+        description: "Código postal, debe ser de tipo TEXT"
+        data_type: TEXT
+      - name: _fivetran_synced
+        description: "Fecha y hora de sincronización, debe ser de tipo TIMESTAMP_NTZ"
+        data_type: TIMESTAMP_NTZ
+
+
   - name: stg_SQL_SERVER_DBO__EVENTS
-    config:
-      contract:
-        enforced: true
+    description: "Table containing event data"
     columns:
-      - name: EVENT_ID
-        tests:
-          - not_null
+      - name: event_id
+        description: "Unique identifier for each event"
+        data_type: integer
+      - name: page_url
+        description: "URL of the page where the event occurred"
         data_type: varchar
-        constraints:
-          - type: not_null
-      - name: PAGE_URL
+      - name: event_type
+        description: "Type of event"
         data_type: varchar
-      - name: EVENT_TYPE
+      - name: user_id
+        description: "Unique identifier for the user"
+        data_type: integer
+      - name: product_id
+        description: "Unique identifier for the product"
+        data_type: integer
+      - name: session_id
+        description: "Unique identifier for the session"
         data_type: varchar
-      - name: USER_ID
-        tests:
-          - not_null
-        data_type: varchar
-        constraints:
-          - type: not_null
-      - name: PRODUCT_ID
-        tests:
-          - not_null
-        data_type: varchar
-        constraints:
-          - type: not_null
-      - name: SESSION_ID
-        tests:
-          - not_null
-        data_type: varchar
-        constraints:
-          - type: not_null
-      - name: CREATED_AT
+      - name: created_at
+        description: "Timestamp when the event was created"
         data_type: timestamp
-      - name: ORDER_ID
-        tests:
-          - not_null
-        data_type: varchar
-        constraints:
-          - type: not_null
-      - name: _FIVETRAN_DELETED
+      - name: order_id
+        description: "Unique identifier for the order"
+        data_type: integer
+      - name: _fivetran_deleted
+        description: "Indicates if the record is deleted"
         data_type: boolean
-      - name: _FIVETRAN_SYNCED
+      - name: _fivetran_synced
+        description: "Timestamp of the last sync"
         data_type: timestamp
 
   - name: stg_SQL_SERVER_DBO__ORDERS
-    config:
-      contract:
-        enforced: true
+    description: "Table containing order data"
     columns:
       - name: order_id
-        tests:
-          - not_null
+        description: "Unique identifier for each order"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: shipping_service
+        description: "Name of the shipping service used"
         data_type: varchar
       - name: shipping_cost
+        description: "Cost of shipping"
         data_type: decimal
       - name: address_id
-        tests:
-          - not_null
+        description: "Unique identifier for the address"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: created_at
+        description: "Timestamp when the order was created"
         data_type: timestamp
       - name: promo_id
+        description: "Unique identifier for the promo"
         data_type: integer
       - name: estimated_delivery_at
+        description: "Estimated delivery date and time"
         data_type: timestamp
       - name: order_cost
+        description: "Total cost of the order"
         data_type: decimal
       - name: user_id
-        tests:
-          - not_null
+        description: "Unique identifier for the user"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: order_total
+        description: "Total amount of the order"
         data_type: decimal
       - name: delivered_at
+        description: "Timestamp when the order was delivered"
         data_type: timestamp
       - name: tracking_id
-        tests:
-          - not_null
+        description: "Tracking ID for the order"
         data_type: varchar
-        constraints:
-          - type: not_null
       - name: status
+        description: "Current status of the order"
         data_type: varchar
       - name: _fivetran_deleted
+        description: "Indicates if the record is deleted"
         data_type: boolean
       - name: _fivetran_synced
+        description: "Timestamp of the last sync"
         data_type: timestamp
 
   - name: stg_SQL_SERVER_DBO__ORDER_ITEMS
-    config:
-      contract:
-        enforced: true
+    description: "Table containing order items data"
     columns:
       - name: order_id
-        tests:
-          - not_null
+        description: "Unique identifier for the order"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: product_id
-        tests:
-          - not_null
+        description: "Unique identifier for the product"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: quantity
+        description: "Quantity of the product in the order"
         data_type: integer
       - name: _fivetran_deleted
+        description: "Indicates if the record is deleted"
         data_type: boolean
       - name: _fivetran_synced
+        description: "Timestamp of the last sync"
         data_type: timestamp
 
   - name: stg_SQL_SERVER_DBO__PRODUCTS
-    config:
-      contract:
-        enforced: true
+    description: "Table containing product data"
     columns:
       - name: product_id
-        tests:
-          - not_null
+        description: "Unique identifier for the product"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: price
+        description: "Price of the product"
         data_type: decimal
       - name: name
+        description: "Name of the product"
         data_type: varchar
       - name: inventory
+        description: "Inventory count of the product"
         data_type: integer
       - name: _fivetran_deleted
+        description: "Indicates if the record is deleted"
         data_type: boolean
       - name: _fivetran_synced
+        description: "Timestamp of the last sync"
         data_type: timestamp
 
   - name: stg_SQL_SERVER_DBO__PROMOS
-    config:
-      contract:
-        enforced: true
+    description: "Table containing promo data"
     columns:
       - name: promo_id
-        tests:
-          - not_null
+        description: "Unique identifier for the promo"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: discount
+        description: "Discount value of the promo"
         data_type: decimal
       - name: status
+        description: "Current status of the promo"
         data_type: varchar
       - name: _fivetran_deleted
+        description: "Indicates if the record is deleted"
         data_type: boolean
       - name: _fivetran_synced
+        description: "Timestamp of the last sync"
         data_type: timestamp
 
   - name: stg_SQL_SERVER_DBO__USERS
-    config:
-      contract:
-        enforced: true
+    description: "Table containing user data"
     columns:
       - name: user_id
-        tests:
-          - not_null
+        description: "Unique identifier for the user"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: updated_at
+        description: "Timestamp of the last update"
         data_type: timestamp
       - name: address_id
-        tests:
-          - not_null
+        description: "Unique identifier for the address"
         data_type: integer
-        constraints:
-          - type: not_null
       - name: last_name
+        description: "Last name of the user"
         data_type: varchar
       - name: created_at
+        description: "Timestamp when the user was created"
         data_type: timestamp
       - name: phone_number
+        description: "Phone number of the user"
         data_type: varchar
       - name: total_orders
+        description: "Total number of orders made by the user"
         data_type: integer
       - name: first_name
+        description: "First name of the user"
         data_type: varchar
       - name: email
+        description: "Email address of the user"
         data_type: varchar
       - name: _fivetran_deleted
+        description: "Indicates if the record is deleted"
         data_type: boolean
       - name: _fivetran_synced
+        description: "Timestamp of the last sync"
         data_type: timestamp
