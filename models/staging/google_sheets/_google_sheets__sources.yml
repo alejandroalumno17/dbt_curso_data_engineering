@@ -1,22 +1,20 @@
 version: 2
 
 sources:
-
-  - name: google_sheets # name of the source 
-    schema: google_sheets # this is the schema our raw data lives in
-    database: ALUMNO17_DEV_BRONZEDB # this is the name of our database
+  - name: google_sheets
+    schema: google_sheets
+    database: ALUMNO17_DEV_BRONZEDB
 
     quoting:
       database: false
       schema: false
       identifier: false
 
-    # freshness:
-    #   warn_after: {count: 24, period: hour}
-    #   error_after: {count: 48, period: hour}
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
 
     tables:
-
       - name: budget
         loaded_at_field: _fivetran_synced
         columns:
@@ -26,9 +24,14 @@ sources:
               - not_null
           - name: product_id
             tests:
-              - not_null
+              - relationships:
+                  to: source('sql_server_dbo', 'products')
+                  field: product_id
           - name: quantity
             tests:
-              - not_null
+              - positive_values 
           - name: month
           - name: _fivetran_synced
+
+
+          
